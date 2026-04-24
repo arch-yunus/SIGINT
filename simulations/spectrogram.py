@@ -1,14 +1,28 @@
 """
 SIGINT Hub - Spectrogram Visualizer
-Developer: Bahattin Yunus Çetin (IT Architect)
+Developer: Yunus Çetin (IT Architect)
 Location: Trabzon / Of
 GitHub: https://github.com/bahattinyunus
 """
 import numpy as np
 import matplotlib.pyplot as plt
+from typing import Tuple
 
-def generate_spectrogram(signal, fs, window_size=256, noverlap=128):
-    """Sinyal için spektrogram verisi oluşturur."""
+def generate_spectrogram(signal: np.ndarray, fs: float, window_size: int = 256, noverlap: int = 128) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Sinyal için spektrogram verisi oluşturur.
+    
+    Args:
+        signal: Giriş sinyali
+        fs: Örnekleme oranı (Hz)
+        window_size: Pencere boyutu
+        noverlap: Örtüşme miktarı
+    
+    Returns:
+        f: Frekanslar
+        st: Zaman örnekleri
+        Sxx: Spektrogram gücü
+    """
     # plot.specgram returns (spectrum, freqs, times, im)
     Sxx, f, st, im = plt.specgram(signal, NFFT=window_size, Fs=fs, noverlap=noverlap)
     return f, st, Sxx

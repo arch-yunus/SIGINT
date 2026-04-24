@@ -1,15 +1,26 @@
 """
 SIGINT Hub - Signal Generator
-Developer: Bahattin Yunus Çetin (IT Architect)
+Developer: Yunus Çetin (IT Architect)
 Location: Trabzon / Of
 GitHub: https://github.com/bahattinyunus
 """
 import numpy as np
 import matplotlib.pyplot as plt
+from typing import Tuple
 
-def generate_signal(frequency, duration, sampling_rate, noise_level=0.1):
+def generate_signal(frequency: float, duration: float, sampling_rate: float, noise_level: float = 0.1) -> Tuple[np.ndarray, np.ndarray]:
     """
     Simüle edilmiş bir sinyal oluşturur (Sinüs dalgası + Gürültü).
+    
+    Args:
+        frequency: Taşıyıcı frekans (Hz)
+        duration: Sinyal süresi (saniye)
+        sampling_rate: Örnekleme hızı (Hz)
+        noise_level: Gürültü seviyesi (0.0 - 1.0)
+    
+    Returns:
+        t: Zaman vektörü
+        signal: İşlenmiş sinyal (sinüs + gürültü)
     """
     t = np.linspace(0, duration, int(sampling_rate * duration), endpoint=False)
     signal = np.sin(2 * np.pi * frequency * t)

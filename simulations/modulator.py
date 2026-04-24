@@ -1,28 +1,62 @@
 """
 SIGINT Hub - Advanced Modulation Engine
-Developer: Bahattin Yunus Çetin (IT Architect)
+Developer: Yunus Çetin (IT Architect)
 Location: Trabzon / Of
 GitHub: https://github.com/bahattinyunus
 """
 import numpy as np
+from typing import Tuple
 
-def generate_baseband(duration, sampling_rate, freq=5.0):
+def generate_baseband(duration: float, sampling_rate: float, freq: float = 5.0) -> Tuple[np.ndarray, np.ndarray]:
+    """Temel bant sinyali oluştur."""
     t = np.linspace(0, duration, int(sampling_rate * duration), endpoint=False)
     return t, np.sin(2 * np.pi * freq * t)
 
-def am_modulate(t, message, fc=100.0, ka=0.5):
-    """Genlik Modülasyonu (AM)"""
+def am_modulate(t: np.ndarray, message: np.ndarray, fc: float = 100.0, ka: float = 0.5) -> np.ndarray:
+    """
+    Genlik Modülasyonu (AM)
+    
+    Args:
+        t: Zaman vektörü
+        message: Mesaj sinyali
+        fc: Taşıyıcı frekans (Hz)
+        ka: Modülasyon indeksi
+    
+    Returns:
+        AM modüle edilmiş sinyal
+    """
     carrier = np.sin(2 * np.pi * fc * t)
     return (1 + ka * message) * carrier
 
-def fm_modulate(t, message, fc=100.0, kf=50.0):
-    """Frekans Modülasyonu (FM)"""
+def fm_modulate(t: np.ndarray, message: np.ndarray, fc: float = 100.0, kf: float = 50.0) -> np.ndarray:
+    """
+    Frekans Modülasyonu (FM)
+    
+    Args:
+        t: Zaman vektörü
+        message: Mesaj sinyali
+        fc: Taşıyıcı frekans (Hz)
+        kf: Frekans modülasyon indeksi
+    
+    Returns:
+        FM modüle edilmiş sinyal
+    """
     # Mesaj sinyalinin integralini al
     integral_message = np.cumsum(message) / len(t)
     return np.sin(2 * np.pi * fc * t + 2 * np.pi * kf * integral_message)
 
-def bpsk_modulate(t, bits, fc=100.0):
-    """BPSK Modülasyonu"""
+def bpsk_modulate(t: np.ndarray, bits: np.ndarray, fc: float = 100.0) -> np.ndarray:
+    """
+    BPSK Modülasyonu
+    
+    Args:
+        t: Zaman vektörü
+        bits: İkili veriler
+        fc: Taşıyıcı frekans (Hz)
+    
+    Returns:
+        BPSK modüle edilmiş sinyal
+    """
     samples_per_bit = len(t) // len(bits)
     message = np.repeat(bits, samples_per_bit)
     if len(message) < len(t):

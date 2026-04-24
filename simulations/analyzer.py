@@ -1,14 +1,23 @@
 """
 SIGINT Hub - FFT Analyzer
-Developer: Bahattin Yunus Çetin (IT Architect)
+Developer: Yunus Çetin (IT Architect)
 Location: Trabzon / Of
 GitHub: https://github.com/bahattinyunus
 """
 import numpy as np
+from typing import Tuple
 
-def perform_fft(signal, sampling_rate):
+def perform_fft(signal: np.ndarray, sampling_rate: float) -> Tuple[np.ndarray, np.ndarray]:
     """
     Sinyal üzerinde Hızlı Fourier Dönüşümü (FFT) gerçekleştirir.
+    
+    Args:
+        signal: Giriş sinyali (zaman alanı)
+        sampling_rate: Örnekleme oranı (Hz)
+    
+    Returns:
+        positive_freqs: Pozitif frekanslar (Hz)
+        magnitude: Her frekansa karşılık gelen genlik
     """
     n = len(signal)
     fft_result = np.fft.fft(signal)
@@ -19,6 +28,27 @@ def perform_fft(signal, sampling_rate):
     magnitude = np.abs(fft_result[:n//2]) * 2 / n
     
     return positive_freqs, magnitude
+
+def calculate_snr(signal: np.ndarray, noise: np.ndarray) -> float:
+    """
+    Sinyal Gürültü Oranını (SNR) hesapla.
+    
+    Args:
+        signal: Temiz sinyal
+        noise: Gürültü sinyali
+    
+    Returns:
+        SNR değeri (dB cinsinden)
+    """
+    signal_power = np.mean(signal ** 2)
+    noise_power = np.mean(noise ** 2)
+    
+    if noise_power == 0:
+        return float('inf')
+    
+    snr_linear = signal_power / noise_power
+    snr_db = 10 * np.log10(snr_linear)
+    return snr_db
 
 if __name__ == "__main__":
     from generator import generate_signal

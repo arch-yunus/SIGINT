@@ -150,6 +150,6 @@ Detaylı katkı rehberi için [CONTRIBUTING.md](file:///c:/github%20repolar%C4%B
 
 ---
 
-**Geliştirici:** Bahattin Yunus Çetin (IT Architect)  
+**Geliştirici:** Yunus Çetin (IT Architect)  
 **GitHub:** [@bahattinyunus](https://github.com/bahattinyunus)  
 **LinkedIn:** [linkedin.com/in/bahattinyunus](https://www.linkedin.com/in/bahattinyunus/)
